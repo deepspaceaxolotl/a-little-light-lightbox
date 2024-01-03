@@ -6,8 +6,15 @@ The lightbox script comes with a Javascript file, a CSS stylesheet and two icons
 
 Example:
 ```html
-<link href="lightbox.css" rel="stylesheet">
-<script src="lightbox.js"></script>
+<link href="./lightbox.css" rel="stylesheet">
+```
+```html
+<script src="./lightbox.js"></script>
+```
+
+Make sure to add `defer` to the `<script>` tag if it's before the body. The script needs to load after the document has loaded.
+```html
+<script defer src="./lightbox.js"></script>
 ```
 
 If you want to add some animations, don't like having the next and previous image in a gallery to either side or want to change change any other settings, check the [options documentation](#options), or modify the code to your liking.
