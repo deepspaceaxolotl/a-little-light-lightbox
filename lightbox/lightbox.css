@@ -1,0 +1,408 @@
+/*
+=======================================================
+A Little Light Lightbox
+Version: 1.0.0
+Author: deepspaceaxolotl
+License: MIT
+This software is based on:
+| Lightbox.js
+| Version: 0.1.0
+| Author: Victor Diego <victordieggo@gmail.com>
+| License: MIT
+=======================================================
+1. Base Styles
+2. Buttons
+3. Videos
+4. Animations
+=======================================================
+*/
+
+/*
+-------------------------------------------------------
+1. Base Styles
+-------------------------------------------------------
+*/
+
+:root {
+	--lightbox-bg-color: rgba(29, 29, 29, 0.8);
+	--lightbox-button-color: brightness(0.9);
+	--lightbox-button-display: none;
+	--lightbox-button-display-disabled: initial;
+	--lightbox-margins: 5vh;
+	--lightbox-side-margins: 7vw;
+	--lightbox-button-size: 36px; /* originally 2.2em */
+	--lightbox-caption-height: 0px;
+	--lightbox-close-button: url('icons/icon-lightbox-close.svg');
+	--lightbox-arrow-button: url('icons/icon-lightbox-arrow.svg');
+}
+
+.remove-scroll {
+	overflow: hidden;
+}
+
+.lightbox {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var(--lightbox-bg-color);
+}
+
+.lightbox-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	pointer-events: none;
+}
+
+.lightbox-container::before {
+	content: "";
+	display: block;
+	flex: 1 1 auto;
+	min-height: var(--lightbox-margins);
+}
+
+.lightbox-container::after {
+	content: "";
+	display: block;
+	flex: 1 1 auto;
+	min-height: var(--lightbox-margins);
+}
+
+.lightbox-captioned::before {
+	min-height: calc(var(--lightbox-margins)/2);
+}
+
+.lightbox-captioned::after {
+	content: none;
+}
+
+.lightbox-content {
+	min-height: 0px;
+	max-height: 100%;
+	position: relative;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	pointer-events: none;
+}
+
+.lightbox-image, .lightbox-video-wrapper {
+	display: block;
+	min-height: 0px;
+	max-height: 100%;
+	max-width: calc(100vw - 2 * var(--lightbox-side-margins) - 48px);
+	flex: 1 1 auto;
+	pointer-events: initial;
+}
+
+.lightbox-content.lightbox-no-sides .lightbox-image, .lightbox-content.lightbox-no-buttons .lightbox-image, .lightbox-content.lightbox-no-sides .lightbox-video-wrapper, .lightbox-content.lightbox-no-buttons .lightbox-video-wrapper {
+	max-width: calc(100vw - var(--lightbox-side-margins)/2 - 24px);
+}
+
+.lightbox-content > picture {
+	max-height: 100%;
+}
+
+.lightbox-prevbox {
+	position: absolute;
+	left: 0;
+	width: 33%;
+	height: 100%;
+	background: #0000;
+	pointer-events: initial;
+	cursor: pointer;
+}
+
+.lightbox-caption {
+	display: inline-block;
+	min-height: min-content;
+	max-width: calc(100vw - 2 * var(--lightbox-side-margins) - 6vw);
+	margin-top: 0.7em;
+	margin-bottom: 0.85em;
+	flex: 1 1 0px;
+	text-align: center;
+	text-rendering: optimizeLegibility;
+	color: #fff;
+	font-family: Helvetica Neue, HelveticaNeue, Helvetica, Arial, sans-serif;
+	font-size: 1.2em;
+	font-weight: 700;
+	text-shadow: 0 4px 30px #000;
+	pointer-events: none;
+}
+
+.lightbox-caption span {
+	pointer-events: initial;
+}
+
+.gallery-sides {
+	position: fixed;
+	top: var(--lightbox-margins);
+	bottom: var(--lightbox-margins);
+	left: 0;
+	right: 0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	align-items: center;
+	pointer-events: none;
+}
+
+.next-lightbox-container {
+	position: absolute;
+	left: calc(100vw - var(--lightbox-side-margins));
+	min-height: 0px;
+	max-height: 100%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+
+.previous-lightbox-container {
+	position: absolute;
+	right: calc(100vw - var(--lightbox-side-margins));
+	min-height: 0px;
+	max-height: 100%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+
+.next-lightbox-container .lightbox-content {
+	align-items: flex-start;
+}
+
+.previous-lightbox-container .lightbox-content {
+	align-items: flex-end;
+}
+
+.next-lightbox-container picture .lightbox-image, .previous-lightbox-container picture .lightbox-image {
+	flex: 0 0 auto;
+}
+
+.next-lightbox-container picture, .previous-lightbox-container picture {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+
+.previous-lightbox-container picture {
+	flex-direction: row-reverse;
+}
+
+.lightbox-nav {
+	cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+	.gallery-sides, .gallery-sides .lightbox-content {
+		display: none;
+	}
+	.lightbox-content.lightbox-no-buttons .lightbox-image, .lightbox-content.lightbox-no-buttons .lightbox-video-wrapper {
+		max-width: calc(100vw - var(--lightbox-side-margins)/2 - 24px);
+	}
+}
+
+/*
+-------------------------------------------------------
+2. Buttons
+-------------------------------------------------------
+*/
+
+@media only screen and (min-width: 600px) {
+	.lightbox-btn-next, .lightbox-btn-previous {
+		display: var(--lightbox-button-display);
+	}
+
+	.lightbox-btn-video {
+		display: initial;
+	}
+}
+
+.lightbox-btn {
+	position: fixed;
+	width: var(--lightbox-button-size);
+	height: var(--lightbox-button-size);
+	box-sizing: content-box;
+	border-radius: 50%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: #0000;
+	border: none;
+	filter: var(--lightbox-button-color);
+	opacity: 0.4;
+	transition: 0.3s;
+	/* transition-delay: 0.7s; */
+	pointer-events: initial;
+	cursor: pointer;
+}
+
+.lightbox-btn-attached {
+	position: absolute;
+}
+
+.lightbox-btn:disabled {
+	opacity: 0.2;
+	cursor: initial;
+	display: var(--lightbox-button-display-disabled);
+}
+
+@media (hover: hover) {
+	.lightbox-btn:hover:enabled, .lightbox-prevbox:hover ~ .lightbox-btn-previous:enabled, .lightbox-image:hover ~ .lightbox-btn-next:enabled, .gallery-sides:hover ~ .lightbox-container .lightbox-content .lightbox-btn-previous:enabled, .gallery-sides:hover ~ .lightbox-container .lightbox-content .lightbox-btn-next:enabled {
+		opacity: 0.9;
+		transition: 0.5s;
+		/* transition-delay: 0s; */
+	}
+}
+
+.lightbox-btn:focus:enabled {
+	opacity: 0.9;
+	transition: 0.5s;
+}
+
+.lightbox-btn-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-size: 53%;
+	width: calc(0.82 * var(--lightbox-button-size));
+	height: calc(0.82 * var(--lightbox-button-size));
+	padding: 13px;
+	background-image: var(--lightbox-close-button);
+}
+
+.lightbox-btn-next, .lightbox-btn-previous {
+	top: calc(50% - ((var(--lightbox-button-size) + 28px) / 2));
+	width: calc(var(--lightbox-button-size) * 2/3);
+	background-size: 50%;
+	padding: 14px;
+	background-image: var(--lightbox-arrow-button);
+}
+
+.lightbox-btn-previous {
+	left: calc((var(--lightbox-side-margins) + 24px)/3 - 14px);
+	padding-left: 1vw;
+	transform: rotate(180deg);
+}
+
+.lightbox-btn-next {
+	right: calc((var(--lightbox-side-margins) + 24px)/3 - 14px);
+	padding-right: 1vw;
+}
+
+.lightbox-btn-previous.lightbox-btn-attached {
+	left: 0.75vh;
+}
+
+.lightbox-btn-next.lightbox-btn-attached {
+	right: 0.75vh;
+}
+
+/*
+-------------------------------------------------------
+3. Videos
+-------------------------------------------------------
+*/
+
+.lightbox-video-wrapper {
+	width: calc(16 / 9 * (100vh - 2 * var(--lightbox-margins)));
+	text-align: center;
+}
+
+.lightbox-captioned .lightbox-video-wrapper {
+	width: calc(16 / 9 * (100vh - var(--lightbox-caption-height) - var(--lightbox-margins)/2));
+}
+
+.lightbox-video-player {
+	margin: auto;
+	height: 100%;
+	width:100%;
+	padding-bottom: 56.25%;
+}
+
+@supports (aspect-ratio: 16/9) {
+	.lightbox-video-wrapper {
+		aspect-ratio: 16/9;
+	}
+	.lightbox-video-player {
+		width: initial;
+		padding-bottom: revert;
+		aspect-ratio: 16/9;
+	}
+}
+
+@supports (height: 100svh) {
+	.lightbox-video-wrapper {
+		width: calc(16 / 9 * (100svh - 2 * var(--lightbox-margins)));
+	}
+	.lightbox-captioned .lightbox-video-wrapper {
+		width: calc(16 / 9 * (100svh - var(--lightbox-caption-height) - var(--lightbox-margins)/2));
+	}
+}
+
+.lightbox-loader {
+	position: absolute;
+	display: table;
+	height: 100%;
+	width: 100%;
+}
+
+.lightbox-loader img {
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+}
+
+/*
+-------------------------------------------------------
+4. Animations
+-------------------------------------------------------
+*/
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+}
+
+@keyframes fadeOut {
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes scaleIn {
+	from {
+		transform: scale(0);
+	}
+
+	to {
+		transform: scale(1);
+	}
+}
+
+@keyframes scaleOut {
+	from {
+		transform: scale(1);
+	}
+
+	to {
+		transform: scale(0);
+	}
+}
