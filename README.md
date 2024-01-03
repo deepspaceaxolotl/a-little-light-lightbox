@@ -185,6 +185,7 @@ The included CSS file contains all the styles necessary for the lightbox. A few 
 | `--lightbox-arrow-button` | `url('icons/icon-lightbox-arrow.svg')` | arrow buttons image |
 
 ## Known Issues
+- .gifv support not yet implemented
 - URL parameter to turn off automatic recommendations for Dailymotion unclear
 - Fallback image or video for embedded videos (iframes) is hard to implement
 - Some fallback video bugs in certain mobile browsers (e.g. Safari)
