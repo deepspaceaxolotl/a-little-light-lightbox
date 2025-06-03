@@ -24,7 +24,7 @@ If you want to add some animations, don't like having the next and previous imag
 Add the `data-lightbox` attribute to an element and set its `href` to link to the content you want to be opened in the lightbox when it's clicked on. (Leaving the `href` empty (`href=""`) will search for the first (currently displayed) image within the element and open that.)
 
 #### Image
-For example, to show a larger version of an image when a smaller thumbnail image is clicked on:
+For example, to show a larger version of an image when a smaller thumbnail image is clicked:
 ```html
 <a href="image_large.png" data-lightbox><img src="image_small.png" alt="Example image"></a>
 ```
@@ -46,13 +46,13 @@ The script also supports MP4 (`.mp4`), WebM (`.webm`) and Ogg (`.ogv`) videos. S
 <a href="video.mp4" data-lightbox data-video-track="track_en.vtt, subtitles, English, en">A video!</a>
 ```
 
-To embed a video YouTube, Vimeo or Dailymotion, set the `href` to the video URL with any desired URL parameters included.
+To embed a video from YouTube, Vimeo or Dailymotion, set the `href` to the video URL with any desired URL parameters included.
 ```html
 <a href="https://www.youtube.com/watch?v=[video ID]&autoplay=1" data-lightbox>A video!</a>
 ```
 
 #### QuerySelector
-You can also set the `href` to `querySelector:` followed by a selector for an `img`, `video`, `figure` or `picture` element somewhere in the document to load that instead. Other options applied using the `data` attributes will still apply, with the `data-video-type` attribute being applied only for a fallback video file.
+You can also set the `href` to `querySelector: ` followed by a selector for an `img`, `video`, `figure` or `picture` element somewhere in the document to load that instead. Other options applied using the script's `data` attributes will still apply, with the `data-video-type` attribute being applied only for a fallback video file.
 
 ```html
 <a href="querySelector: [alt='Another image']" data-lightbox><img src="image_small.png" alt="Example image"></a>
@@ -60,37 +60,37 @@ You can also set the `href` to `querySelector:` followed by a selector for an `i
 ```
 
 ### Gallery
-Set a value for the `data-lightbox` attribute for each desired element to open them all in a gallery.
+Set a value for the `data-lightbox` attribute for each desired element to open them in a gallery.
 ```html
 <a href="image_1.png" data-lightbox="gallery one"><img src="image_1_small.png" alt="Example image 1"></a>
 <a href="image_2.png" data-lightbox="gallery one"><img src="image_2_small.png" alt="Example image 2"></a>
 <a href="https://www.youtube.com/watch?v=[video ID]" data-lightbox="gallery one">A video!</a>
 ```
 
-Navigation is possible using buttons or previews of the next/previous image on either side (optional, next/previous videos always result in a button), clicking on the image (left third to go back if possible, the rest to go forwards) or using arrow keys. On touch-capable devices, navigation is also possible by swiping far enough anywhere on the screen (if the content displayed is a video, the swipe action cannot begin on the video itself).
+Navigation is possible using buttons or previews of the next/previous image on either side (optional, next/previous videos always result in a button), clicking on the image (left third to go back if possible, the other two thirds to go forwards) or using arrow keys. On touch-capable devices, navigation is also possible by swiping far enough anywhere on the screen (if the content displayed is a video, the swipe action cannot begin on the video itself).
 
 Tab navigation is fully supported with a focus trap, and the gallery can be exited by clicking the close button (if present), clicking anywhere outside of the image/video, or using the escape key.
 
 ### Captions
-Captions can be set for each item using the `data-caption` attribute, which supports HTML tags such as `<br>` or `<i>` and wraps automatically.
+Captions can be set for each item using the `data-caption` attribute, which supports HTML tags such as `<br>` and `<i>` and wraps automatically.
 ```html
 <a href="image_large.png" data-lightbox data-caption="This is <br> a multiline <i>caption</i>"><img src="image_small.png" alt="Example image"></a>
 ```
 
-### Image alt text
-When opening an image, you can set its alt text using the `data-image-alt` attribute. Otherwise, the script will check for an image within the HTML tag with the `data-lightbox` attribute for its alt text. (Of course, if it's not the same image, that alt text might be inaccurate.)
+### Image Alt Text
+When opening an image, you can set its alt text using the `data-image-alt` attribute. Otherwise, the script will check for an image within the HTML tag with the `data-lightbox` attribute for its alt text. (Of course, if it isn't the same image, that alt text might be inaccurate.)
 ```html
 <a href="image_large.png" data-lightbox data-image-alt="Larger image"><img src="image_small.png" alt="Example image"></a>
 ```
 
-### Image srcset
+### Image `srcset`
 Images can have a `srcset` set using the `data-image-srcset` attribute.
 ```html
 <a href="image_large.png" data-lightbox data-image-alt="Larger image" data-image-srcset="image_large.png, image_large_retina.png 2x"><img src="image_small.png" alt="Example image"></a>
 ```
 
-### Image fallback
-Fallback images which will load if the image linked to in the `href` fails to load can be set using the `data-fallback-image` attribute.
+### Fallback Image/Video
+A fallback image or video which will load if the image/video linked to in the `href` fails to load can be set using the `data-fallback-image` attribute.
 ```html
 <a href="image_large.png" data-lightbox data-image-alt="Larger image" data-fallback-image="image_large_fallback.png"><img src="image_small.png" alt="Example image"></a>
 ```
@@ -102,37 +102,37 @@ The following data attributes can be added to the target element.
 | `data-lightbox` | initializes the lightbox; set a value to group items in a gallery |
 | `data-lightbox-options` | see [options](#options) |
 | `data-caption` | caption to show under content; supports HTML |
-| `data-image-alt` | alt for image that will be shown |
+| `data-image-alt` | alt text for the linked image |
 | `data-image-srcset` | specify `srcset` for the linked image |
 | `data-fallback-image` | fallback image or video URL in case content fails to load |
-| `data-video-options` | specify attributes for `<video>` element, with `="false"` or `="0"` after them or prefixing them with a `!` removing the attribute |
-| `data-video-track` | adds a `<track>` element to video file |
+| `data-video-options` | specify native attributes for `<video>` element, with `="false"` or `="0"` afterwards or prefixing with a `!` to remove the attribute |
+| `data-video-track` | add a `<track>` element to video file |
 | `data-video-type` | video type, in case codecs need specifying (otherwise, will be set according to file extension) |
 
 ## Options
 There are many options that can be set to change the behavior of the lightbox.
-| Property | Possible values | Default value | Usage |
+| Property | Possible Values | Default Value | Usage |
 | --- | --- | --- | --- |
 | `all` | `null`, `'gallery'`, `'single'` | `null` | setting this to `'single'` will ignore any gallery groupings, while setting it to `'gallery'` will include all images on the page in one big gallery |
-| `animated` | `true`, `false` | `false` | fading and scaling animations |
 | `carousel` | `true`, `false` | `false` | makes galleries loop |
-| `fallbackswap` | `true`, `false`, | `true` | whether loading a fallback image/video will also replace the broken resource link in the relevant elements; has no effect on `<video>` elements found via [querySelector](#queryselector) |
-| `loaderimage` | `string` (an image url) | `null` (loads a 1x1 px invisible gif) | loading image for videos |
+| `fallbackswap` | `true`, `false`, | `true` | whether loading a fallback image/video will also replace the broken resource link (`href`) in the relevant elements; has no effect on `<video>` elements found via [querySelector](#queryselector) |
 | `sideimages` | `true`, `false` | `true` | displays previous and next images on either side, which can be used to navigate |
 | `buttons.attached` | `true`, `false` | `false` | attaches buttons to the currently displayed item (CSS tweaking recommended) |
 | `buttons.close` | `true`, `false` | `true` | displays the close button |
-| `buttons.nav` | `true`, `false` | `true` | displays navigation buttons (by default only on small screens or for videos, set CSS `--lightbox-button-display` property to `initial` to always show (turning off `sideimages` will do this automatically)) |
-| `video.autoplay` | `true`, `false` | `false` | autoplay video |
-| `video.controls` | `true`, `false` | `true` | show video controls |
-| `video.muted` | `true`, `false` | `false` | start video muted |
+| `buttons.nav` | `true`, `false` | `true` | displays navigation buttons (by default only on small screens or for videos; set CSS `--lightbox-button-display` variable to `initial` to always show (turning off `sideimages` will do this automatically)) |
+| `animated` | `true`, `false` | `false` | fading and scaling animations |
 | `animation.fadeIn` | `string` (a CSS animation property), `null` | `'fadeIn .3s forwards'` | fade in animation |
 | `animation.fadeOut` | `string` (a CSS animation property), `null` | `'fadeOut .3s forwards'` | fade out animation |
 | `animation.scaleIn` | `string` (a CSS animation property), `null` | `'scaleIn .3s forwards'` | scale in animation |
 | `animation.scaleOut` | `string` (a CSS animation property), `null` | `'scaleOut .3s forwards'` | scale out animation |
+| `loaderimage` | `string` (an image URL) | `null` (loads a 1x1 px invisible GIF) | loading image for videos |
+| `video.autoplay` | `true`, `false` | `false` | autoplay video |
+| `video.controls` | `true`, `false` | `true` | show video controls |
+| `video.muted` | `true`, `false` | `false` | start video muted |
 
 These can be set globally for the page the lightbox has been initialized in, or for each gallery of images/videos using the `data-lightbox-options` attribute (or you can change them in the JS file itself to apply everywhere).
 
-### Setting options globally
+### Setting Options Globally
 To set them globally for the page, include a script tag near the top of the page and set the options using `window.lightboxOptions`, like so:
 ```html
 <script>
@@ -157,7 +157,7 @@ To set them globally for the page, include a script tag near the top of the page
 
 If using any software that bundles scripts together, make sure to turn that off, such as by adding the `is:inline` attribute to the `<script>` tag in [Astro](https://astro.build/).
 
-### Setting options locally
+### Setting Options Locally
 To set options locally for a gallery, list any properties you want set along with their values in the `data-lightbox-options` attribute, separated by commas. When setting them like this, any boolean properties can be set to `true` with just the name of the property, or to `false` by prefixing it with a `!`. If setting them explicitly, `1` and `0` can also be used in place of `true` and `false`, respectively. Other values will be read as strings, except for `null`.
 ```html
 <a href="image.png" data-lightbox data-lightbox-options="autoplay, !buttons.attached, animated, animation.fadeIn = fadeIn .5s forwards, animation.fadeOut = fadeOut .5s forwards, animation.scaleIn = null, animation.scaleOut = null">example</a>
